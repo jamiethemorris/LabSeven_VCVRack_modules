@@ -58,18 +58,37 @@ struct LS3340VCO : Module
     int Theme = 0;
 
     LS3340VCO() {
-	    config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-      configParam(LS3340VCO::PARAM_MOD, 0.0f, 1.0f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_RANGE, 0.0, 3.0, 1.0, "");
-      configParam(LS3340VCO::PARAM_PULSEWIDTH, 0.0f, 0.5f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_PWMSOURCE, 0.0f, 2.0f, 1.0f, "");
-      configParam(LS3340VCO::PARAM_VOLSQUARE, 0.0f, 1.0f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_VOLSAW, 0.0f, 1.0f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_VOLTRIANGLE, 0.0f, 1.0f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_VOLSUBOSC, 0.0f, 1.0f, 0.0f, "");
-      configParam(LS3340VCO::PARAM_SUBOSCRATIO, 0.0f, 2.0f, 2.0f, "");
-      configParam(LS3340VCO::PARAM_VOLNOISE, 0.0f, 1.0f, 0.0f, "");
-      srand(time(0));
+        config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+        
+        // Configure inputs
+        configInput(LS3340VCO::IN_PITCH, "1V/oct pitch");
+        configInput(LS3340VCO::IN_MOD, "Modulation");
+        configInput(LS3340VCO::IN_RANGE, "Range");
+        configInput(LS3340VCO::IN_LFO, "LFO");
+        configInput(LS3340VCO::IN_ENV, "Envelope");
+        configInput(LS3340VCO::IN_SUBOSCSELECT, "Sub-oscillator select");
+
+        // Configure outputs
+        configOutput(LS3340VCO::OUT_SQUARE, "Square");
+        configOutput(LS3340VCO::OUT_SAW, "Saw");
+        configOutput(LS3340VCO::OUT_SUB, "Sub-oscillator");
+        configOutput(LS3340VCO::OUT_TRIANGLE, "Triangle");
+        configOutput(LS3340VCO::OUT_MIX, "Mix");
+        configOutput(LS3340VCO::OUT_NOISE, "Noise");
+
+        // Configure parameters
+        configParam(LS3340VCO::PARAM_MOD, 0.0f, 1.0f, 0.0f, "Modulation");
+        configSwitch(LS3340VCO::PARAM_RANGE, 0, 3, 1, "Range", {"16", "8", "4", "2"});
+        configParam(LS3340VCO::PARAM_PULSEWIDTH, 0.0f, 0.5f, 0.0f, "Pulse Width");
+        configSwitch(LS3340VCO::PARAM_PWMSOURCE, 0, 2, 1, "PWM Source", {"Env", "Manual", "LFO"});
+        configParam(LS3340VCO::PARAM_VOLSQUARE, 0.0f, 1.0f, 0.0f, "Square Volume");
+        configParam(LS3340VCO::PARAM_VOLSAW, 0.0f, 1.0f, 0.0f, "Saw Volume");
+        configParam(LS3340VCO::PARAM_VOLTRIANGLE, 0.0f, 1.0f, 0.0f, "Triangle Volume");
+        configParam(LS3340VCO::PARAM_VOLSUBOSC, 0.0f, 1.0f, 0.0f, "Sub-oscillator Volume");
+        configSwitch(LS3340VCO::PARAM_SUBOSCRATIO, 0, 2, 2, "Sub-oscillator Ratio", {"1/4", "1/2", "1"});
+        configParam(LS3340VCO::PARAM_VOLNOISE, 0.0f, 1.0f, 0.0f, "Noise Volume");
+
+        srand(time(0));
     }
 	void process(const ProcessArgs& args) override;
 
